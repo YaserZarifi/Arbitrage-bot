@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Your existing postgres database service
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=crypto_arbitrage
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=your_strong_password
+    ports:
+      - "5555:5432"
+
+  # Prometheus service
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  # Grafana service
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  postgres_data:

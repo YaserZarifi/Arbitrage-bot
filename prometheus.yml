@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s # How often to scrape for new data
+
+scrape_configs:
+  - job_name: 'arbitrage-bot'
+    static_configs:
+      # 'host.docker.internal' is a special address that lets a Docker container
+      # connect to a service running on your main computer (the host machine).
+      - targets: ['host.docker.internal:8000']
